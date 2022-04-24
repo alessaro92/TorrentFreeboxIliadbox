@@ -1,0 +1,7 @@
+{
+    "pages": {
+        "config": {
+            "authError": "Authentication error."
+        }
+    }
+}

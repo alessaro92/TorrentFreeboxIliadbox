@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { NavController } from 'ionic-angular';
 import { ISubscription } from 'rxjs/Subscription';
 import { FreeboxService } from '../../providers/freebox-service';
@@ -17,8 +18,14 @@ export class ConfigPage {
   private subscriptionTimer:ISubscription;
 
   constructor(private navCtrl: NavController, public commonService: CommonService,
-              public freeboxService: FreeboxService) {
+              public freeboxService: FreeboxService, public translate: TranslateService) {
       this.authMessage = "";
+
+      translate.addLangs(['en', 'fr', 'it']);
+      translate.setDefaultLang('en');
+
+      const browserLang = translate.getBrowserLang();
+      translate.use(browserLang.match(/en|fr|it/) ? browserLang : 'en');
   }
 
   authentification () {
@@ -32,7 +39,7 @@ export class ConfigPage {
                   this.checkStatus();
               });
           } else {
-              this.authMessage = "Erreur d'authentification.";
+              this.authMessage = this.translate.instant('pages.config.authError');
           }
       });
   }
