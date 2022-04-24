@@ -7,8 +7,9 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class FreeboxService {
-    private routeApi: any = 'http://fwed.freeboxos.fr:8000/';
-    //private routeApi: any = 'http://192.168.1.17:8000/';
+    private isIliadbox: any; // boolean?
+    private urlBase: any;
+    private routeApi: any;
     private appId: any = 'fr.freebox.torrent';
     private routeAuth: any;
     private routeTracking: any;
@@ -21,15 +22,22 @@ export class FreeboxService {
     private routeDownloadAddByUrl: any;
 
     constructor(public http: HttpClient, public commonService: CommonService) {
-        //this.routeAuth = this.routeApi + 'login/authorize/';
-        this.routeAuth = this.routeApi + 'freebox/authorization';
-        //this.routeTracking = this.routeApi + 'login/authorize';
-        this.routeTracking = this.routeApi + 'freebox/tracking/';
-        //this.routeLogin = this.routeApi + 'login';
-        this.routeLogin = this.routeApi + 'freebox/login';
-        //this.routeLoginSession = this.routeApi + 'login/session';
-        this.routeLoginSession = this.routeApi + 'freebox/login/session';
-        this.routeDownloads = this.routeApi + 'freebox/downloads';
+        // iliadbox/freebox check
+        this.isIliadbox = commonService.isIliadbox();
+        this.urlBase = this.isIliadbox
+            ? 'http://myiliadbox.iliad.it/'
+            : 'http://fwed.freeboxos.fr:8000/';
+
+        // API version
+        this.routeApi = this.urlBase + 'api/v8/';
+
+        // REST API routes
+        this.routeAuth = this.routeApi + 'login/authorize/';
+        this.routeTracking = this.routeApi + 'login/authorize/';
+        this.routeLogin = this.routeApi + 'login/';
+        this.routeLoginSession = this.routeApi + 'login/session/';
+        this.routeDownloads = this.routeApi + 'downloads/';
+
         //this.routeDownload = this.routeApi + 'freebox/download';
         this.routeDownloadDelete = this.routeApi + 'freebox/download/delete';
         this.routeDownloadStatus = this.routeApi + 'freebox/download/status';
@@ -212,11 +220,13 @@ export class FreeboxService {
 
     getDownloadsGranted(tokenSession) {
         return new Promise(resolve => {
-            let request: any = {
-                "token_session": tokenSession.toString()
+            let header = new HttpHeaders()
+                .set('Content-Type', 'application/x-www-form-urlencoded')
+                .set('X-Fbx-App-Auth', tokenSession);
+            const reqOpts = {
+                headers: header
             };
-            let param:any = JSON.stringify(request);
-            this.http.post(this.routeDownloads, param)
+            this.http.get(this.routeDownloads, reqOpts)
                 .subscribe(
                     response => {
                         if (response['success']) {

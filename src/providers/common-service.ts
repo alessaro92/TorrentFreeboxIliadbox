@@ -304,5 +304,10 @@ export class CommonService {
             .then(() => this.toastShow('Success : ouvrir ' + filename + ' depuis le dossier ' + path))
             .catch(e => this.toastShow('Erreur : impossible d\'ouvrir ' + filename + ' depuis le dossier ' + path));
     }
+
+    isIliadbox() {
+        // todo : Implement a logic
+        return true;
+    }
 }
 
