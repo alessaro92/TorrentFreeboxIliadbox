@@ -382,12 +382,13 @@ export class FreeboxService {
 
     deleteDownloadGranted(id, tokenSession) {
         return new Promise(resolve => {
-            let request: any = {
-                "id": id,
-                "token_session": tokenSession.toString()
+            let header = new HttpHeaders()
+                .set('Content-Type', 'application/x-www-form-urlencoded')
+                .set('X-Fbx-App-Auth', tokenSession);
+            const reqOpts = {
+                headers: header
             };
-            let param:any = JSON.stringify(request);
-            this.http.post(this.routeDownloadDelete, param)
+            this.http.delete(this.routeDownloads + id, reqOpts)
                 .subscribe(
                     response => {
                         resolve(response);
@@ -436,13 +437,13 @@ export class FreeboxService {
 
     setStatusDownloadGranted(id, parameters, tokenSession) {
         return new Promise(resolve => {
-            let request: any = {
-                "id": id,
-                "param": parameters,
-                "token_session": tokenSession.toString()
+            let header = new HttpHeaders()
+                .set('Content-Type', 'application/x-www-form-urlencoded')
+                .set('X-Fbx-App-Auth', tokenSession);
+            const reqOpts = {
+                headers: header
             };
-            let param:any = JSON.stringify(request);
-            this.http.post(this.routeDownloadStatus, param)
+            this.http.put(this.routeDownloads + id, parameters, reqOpts)
                 .subscribe(
                     response => {
                         resolve(response);
