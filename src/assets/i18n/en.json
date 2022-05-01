@@ -25,7 +25,9 @@
             "no": "No",
             "deleteError": "Error while deleting.",
             "pauseError": "Error while pausing.",
-            "resumeError": "Error while resuming."
+            "resumeError": "Error while resuming.",
+            "keepFiles": "Keep files",
+            "eraseFiles": "Erase files"
         }
     }
 }

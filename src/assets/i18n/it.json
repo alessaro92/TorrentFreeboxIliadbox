@@ -25,7 +25,9 @@
             "no": "No",
             "deleteError": "Errore durante l'eliminazione.",
             "pauseError": "Errore durante la pausa.",
-            "resumeError": "Errore durante la ripresa."
+            "resumeError": "Errore durante la ripresa.",
+            "keepFiles": "Mantieni i file",
+            "eraseFiles": "Cancella i file"
         }
     }
 }

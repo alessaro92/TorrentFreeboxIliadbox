@@ -124,6 +124,7 @@ export class DownloadPage {
         }
         const deleteText = this.translate.instant('pages.download.delete');
         const cancelText = this.translate.instant('pages.download.cancel');
+        let actionSheet;
         let buttons:any = [
             statusButton,
             {
@@ -131,7 +132,9 @@ export class DownloadPage {
                 role: 'destructive',
                 icon: 'trash',
                 handler: () => {
-                    this.showConfirmDelete(download);
+                    actionSheet.dismiss();
+                    this.openDeleteMenu(download);
+                    return false;
                 }
             },
             {
@@ -143,6 +146,43 @@ export class DownloadPage {
                 }
             }
         ];
+        actionSheet = this.actionsheetCtrl.create({
+            title: download.title,
+            cssClass: 'action-sheets-basic-page',
+            buttons: buttons
+        });
+        actionSheet.present();
+    }
+
+    openDeleteMenu(download) {
+        const keepFilesText = this.translate.instant('pages.download.keepFiles');
+        const eraseFilesText = this.translate.instant('pages.download.eraseFiles');
+        const cancelText = this.translate.instant('pages.download.cancel');
+        let buttons:any = [
+            {
+                text: keepFilesText,
+                icon: 'hand',
+                handler: () => {
+                    this.showConfirmDelete(download, false);
+                }
+            },
+            {
+                text: eraseFilesText,
+                role: 'destructive',
+                icon: 'trash',
+                handler: () => {
+                    this.showConfirmDelete(download, true);
+                }
+            },
+            {
+                text: cancelText,
+                role: 'cancel',
+                icon: 'close',
+                handler: () => {
+                    console.log('cancel delete');
+                }
+            }
+        ];
         let actionSheet = this.actionsheetCtrl.create({
             title: download.title,
             cssClass: 'action-sheets-basic-page',
@@ -151,7 +191,8 @@ export class DownloadPage {
         actionSheet.present();
     }
 
-    showConfirmDelete(download) {
+    showConfirmDelete(download, eraseFiles) {
+        // todo : Add the keep/erase files info in the confirm message
         const deleteConfirmMsg = this.translate.instant('pages.download.deleteConfirm', { downloadTitle: download.title });
         const deleteTitle = this.translate.instant('pages.download.deleteTitle');
         const yesLabel = this.translate.instant('pages.download.yes');
@@ -163,7 +204,7 @@ export class DownloadPage {
                 {
                     text: yesLabel,
                     handler: () => {
-                        this.delete(download);
+                        this.delete(download, eraseFiles);
                     }
                 },
                 {
@@ -177,10 +218,10 @@ export class DownloadPage {
         confirm.present();
     }
 
-    delete(download) {
+    delete(download, eraseFiles) {
         const pleaseWait = this.translate.instant('pages.download.pleaseWait');
         this.commonService.loadingShow(pleaseWait);
-        this.freeboxService.deleteDownload(download.id).then(deleted => {
+        this.freeboxService.deleteDownload(download.id, eraseFiles).then(deleted => {
             this.firstLoad = true;
             if (!deleted['success']) {
                 const deleteError = this.translate.instant('pages.download.deleteError');

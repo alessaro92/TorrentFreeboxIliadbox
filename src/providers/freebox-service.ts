@@ -345,15 +345,15 @@ export class FreeboxService {
 
     }
 
-    deleteDownload(id) {
+    deleteDownload(id, eraseFiles) {
         return new Promise(resolve => {
             this.commonService.getTokenSession().then(tokenSession => {
                 if (tokenSession) {
-                    this.deleteDownloadGranted(id, tokenSession).then(drop => {
+                    this.deleteDownloadGranted(id, tokenSession, eraseFiles).then(drop => {
                         if (!drop['success']) {
                             this.challenge().then(tokenSession => {
                                 if (tokenSession) {
-                                    this.deleteDownloadGranted(id, tokenSession).then(drop => {
+                                    this.deleteDownloadGranted(id, tokenSession, eraseFiles).then(drop => {
                                         resolve(drop);
                                     });
                                 } else {
@@ -367,7 +367,7 @@ export class FreeboxService {
                 } else {
                     this.challenge().then(tokenSession => {
                         if (tokenSession) {
-                            this.deleteDownloadGranted(id, tokenSession).then(drop => {
+                            this.deleteDownloadGranted(id, tokenSession, eraseFiles).then(drop => {
                                 resolve(drop);
                             });
                         } else {
@@ -380,7 +380,7 @@ export class FreeboxService {
         });
     }
 
-    deleteDownloadGranted(id, tokenSession) {
+    deleteDownloadGranted(id, tokenSession, eraseFiles) {
         return new Promise(resolve => {
             let header = new HttpHeaders()
                 .set('Content-Type', 'application/x-www-form-urlencoded')
@@ -388,7 +388,8 @@ export class FreeboxService {
             const reqOpts = {
                 headers: header
             };
-            this.http.delete(this.routeDownloads + id, reqOpts)
+            const eraseUrlSuffix = eraseFiles ? '/erase' : '';
+            this.http.delete(this.routeDownloads + id + eraseUrlSuffix, reqOpts)
                 .subscribe(
                     response => {
                         resolve(response);

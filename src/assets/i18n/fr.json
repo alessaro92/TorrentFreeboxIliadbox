@@ -25,7 +25,9 @@
             "no": "Non",
             "deleteError": "Erreur de suppression.",
             "pauseError": "Erreur lors de la mise en pause.",
-            "resumeError": "Erreur lors de la reprise."
+            "resumeError": "Erreur lors de la reprise.",
+            "keepFiles": "Keep files",
+            "eraseFiles": "Erase files"
         }
     }
 }
