@@ -9,7 +9,8 @@
         "build": "ionic-app-scripts build",
         "lint": "ionic-app-scripts lint",
         "ionic:build": "ionic-app-scripts build",
-        "ionic:serve": "ionic-app-scripts serve"
+        "ionic:serve": "ionic-app-scripts serve",
+        "lab": "ionic serve --lab --consolelogs"
     },
     "dependencies": {
         "@angular/common": "5.0.0",
@@ -57,7 +58,7 @@
         "zone.js": "0.8.18"
     },
     "devDependencies": {
-        "@ionic/app-scripts": "3.1.0",
+        "@ionic/app-scripts": "3.2.4",
         "typescript": "2.4.2"
     },
     "description": "An Ionic project",
