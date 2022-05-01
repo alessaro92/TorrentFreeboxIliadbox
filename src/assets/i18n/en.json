@@ -1,7 +1,31 @@
 {
     "pages": {
+        "tabs": {
+            "downloads": "Downloads",
+            "favorites": "Favorites",
+            "search": "Search"
+        },
         "config": {
             "authError": "Authentication error."
+        },
+        "download": {
+            "downloadsTitle": "Downloads",
+            "sharingTitle": "Sharing",
+            "checkingInProgress": "checking in progress...",
+            "pleaseWait": "Please wait...",
+            "noSharingInProgress": "No sharing in progress.",
+            "noDownloadInProgress": "No download in progress.",
+            "play": "Play",
+            "pause": "Pause",
+            "delete": "Delete",
+            "cancel": "Cancel",
+            "deleteTitle": "Delete",
+            "deleteConfirm": "Do you confirm the deletion of {{downloadTitle}} ?",
+            "yes": "Yes",
+            "no": "No",
+            "deleteError": "Error while deleting.",
+            "pauseError": "Error while pausing.",
+            "resumeError": "Error while resuming."
         }
     }
 }

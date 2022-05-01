@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { NavController, ActionSheetController, AlertController } from 'ionic-angular';
 import { FreeboxService } from '../../providers/freebox-service';
 import { CommonService } from '../../providers/common-service';
@@ -22,9 +23,15 @@ export class DownloadPage {
 
     constructor(public navCtrl: NavController, private freeboxService: FreeboxService,
                 private commonService: CommonService, private actionsheetCtrl: ActionSheetController,
-                private alertCtrl: AlertController) {
+                private alertCtrl: AlertController, public translate: TranslateService) {
         this.noDownload = false;
         this.noDownloadMessage = "";
+        
+        translate.addLangs(['en', 'fr', 'it']);
+        translate.setDefaultLang('en');
+
+        const browserLang = translate.getBrowserLang();
+        translate.use(browserLang.match(/en|fr|it/) ? browserLang : 'en');
     }
 
     ionViewDidEnter () {
@@ -36,18 +43,23 @@ export class DownloadPage {
         this.firstLoad = true;
         this.commonService.getGranted().then(granted => {
             if (granted) {
-                this.commonService.loadingShow('Please wait...');
-                this.subscriptionTimer = Observable.interval(2500).subscribe(x => {
-                    if (!this.noFullDownload) {
-                        this.showDownloads();
+                this.translate.get('pages.download.pleaseWait').subscribe(
+                    pleaseWait => {
+                        this.commonService.loadingShow(pleaseWait);
+                        this.subscriptionTimer = Observable.interval(2500).subscribe(x => {
+                            if (!this.noFullDownload) {
+                                this.showDownloads();
+                            }
+                        });
                     }
-                });
+                )
             }
         });
     }
 
     onChangeMode() {
-        this.commonService.loadingShow('Please wait...');
+        const pleaseWait = this.translate.instant('pages.download.pleaseWait');
+        this.commonService.loadingShow(pleaseWait);
         this.firstLoad = true;
         this.downloads = [];
         if (this.noFullDownload) {
@@ -75,11 +87,10 @@ export class DownloadPage {
                 if (this.downloads.length > 0) {
                     this.noDownload = false;
                 } else {
-                    if (this.shareMode) {
-                        this.noDownloadMessage = 'Aucun partage en cours.';
-                    } else {
-                        this.noDownloadMessage = 'Aucun téléchargement en cours.';
-                    }
+                    this.noDownloadMessage = this.translate.instant(
+                        this.shareMode
+                        ? 'pages.download.noSharingInProgress'
+                        : 'pages.download.noDownloadInProgress');
                     this.noDownload = true;
                 }
             }
@@ -93,26 +104,30 @@ export class DownloadPage {
     openMenu(download) {
         let statusButton:any;
         if (download.status=='stopped') {
+            const playText = this.translate.instant('pages.download.play');
             statusButton = {
-                text: 'Play',
+                text: playText,
                 icon: 'play',
                 handler: () => {
                     this.play(download);
                 }
             }
         } else {
+            const pauseText = this.translate.instant('pages.download.pause');
             statusButton = {
-                text: 'Pause',
+                text: pauseText,
                 icon: 'pause',
                 handler: () => {
                     this.pause(download);
                 }
             }
         }
+        const deleteText = this.translate.instant('pages.download.delete');
+        const cancelText = this.translate.instant('pages.download.cancel');
         let buttons:any = [
             statusButton,
             {
-                text: 'Delete',
+                text: deleteText,
                 role: 'destructive',
                 icon: 'trash',
                 handler: () => {
@@ -120,7 +135,7 @@ export class DownloadPage {
                 }
             },
             {
-                text: 'Cancel',
+                text: cancelText,
                 role: 'cancel',
                 icon: 'close',
                 handler: () => {
@@ -137,18 +152,22 @@ export class DownloadPage {
     }
 
     showConfirmDelete(download) {
+        const deleteConfirmMsg = this.translate.instant('pages.download.deleteConfirm', { downloadTitle: download.title });
+        const deleteTitle = this.translate.instant('pages.download.deleteTitle');
+        const yesLabel = this.translate.instant('pages.download.yes');
+        const noLabel = this.translate.instant('pages.download.no');
         let confirm = this.alertCtrl.create({
-            title: 'Suppression',
-            message: 'Confirmez-vous la suppression de "'+download.title + '" ?',
+            title: deleteTitle,
+            message: deleteConfirmMsg,
             buttons: [
                 {
-                    text: 'Oui',
+                    text: yesLabel,
                     handler: () => {
                         this.delete(download);
                     }
                 },
                 {
-                    text: 'Non',
+                    text: noLabel,
                     handler: () => {
                         //console.log('Non');
                     }
@@ -159,37 +178,43 @@ export class DownloadPage {
     }
 
     delete(download) {
-        this.commonService.loadingShow('Please wait...');
+        const pleaseWait = this.translate.instant('pages.download.pleaseWait');
+        this.commonService.loadingShow(pleaseWait);
         this.freeboxService.deleteDownload(download.id).then(deleted => {
             this.firstLoad = true;
             if (!deleted['success']) {
-                this.commonService.toastShow('Erreur de suppression.');
+                const deleteError = this.translate.instant('pages.download.deleteError');
+                this.commonService.toastShow(deleteError);
             }
         });
     }
 
     pause(download) {
-        this.commonService.loadingShow('Please wait...');
+        const pleaseWait = this.translate.instant('pages.download.pleaseWait');
+        this.commonService.loadingShow(pleaseWait);
         let param: any = {
             "status": "stopped"
         };
         this.freeboxService.setStatusDownload(download.id, param).then(pause => {
             this.firstLoad = true;
             if (!pause['success']) {
-                this.commonService.toastShow('Erreur lors de la mise en pause.');
+                const pauseError = this.translate.instant('pages.download.pauseError');
+                this.commonService.toastShow(pauseError);
             }
         });
     }
 
     play(download) {
-        this.commonService.loadingShow('Please wait...');
+        const pleaseWait = this.translate.instant('pages.download.pleaseWait');
+        this.commonService.loadingShow(pleaseWait);
         let param: any = {
             "status": "downloading"
         };
         this.freeboxService.setStatusDownload(download.id, param).then(play => {
             this.firstLoad = true;
             if (!play['success']) {
-                this.commonService.toastShow('Erreur lors de la reprise.');
+                const resumeError = this.translate.instant('pages.download.resumeError');
+                this.commonService.toastShow(resumeError);
             }
         });
     }

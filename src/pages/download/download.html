@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar>
-    <ion-title *ngIf="!shareMode">Téléchargements</ion-title>
-    <ion-title *ngIf="shareMode">Partage</ion-title>
+    <ion-title *ngIf="!shareMode">{{ 'pages.download.downloadsTitle' | translate }}</ion-title>
+    <ion-title *ngIf="shareMode">{{ 'pages.download.sharingTitle' | translate }}</ion-title>
     <ion-buttons right>
       <ion-toggle color="danger" [(ngModel)]="shareMode" (ngModelChange)="onChangeMode()"></ion-toggle>
     </ion-buttons>
@@ -41,7 +41,7 @@
             <progress-bar [progress]="download.progress"></progress-bar>
           </ion-col>
           <ion-col col-11 *ngIf="download.checkingStatus">
-            vérification en cours...
+            {{ 'pages.download.checkingInProgress' | translate }}
           </ion-col>
         </ion-row>
       </ion-grid>

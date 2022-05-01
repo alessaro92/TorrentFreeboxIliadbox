@@ -1,7 +1,31 @@
 {
     "pages": {
+        "tabs": {
+            "downloads": "Téléchargements",
+            "favorites": "Favoris",
+            "search": "Recherche"
+        },
         "config": {
             "authError": "Erreur d'authentification."
+        },
+        "download": {
+            "downloadsTitle": "Téléchargements",
+            "sharingTitle": "Partage",
+            "checkingInProgress": "vérification en cours...",
+            "pleaseWait": "Please wait...",
+            "noSharingInProgress": "Aucun partage en cours.",
+            "noDownloadInProgress": "Aucun téléchargement en cours.",
+            "play": "Play",
+            "pause": "Pause",
+            "delete": "Delete",
+            "cancel": "Cancel",
+            "deleteTitle": "Suppression",
+            "deleteConfirm": "Confirmez-vous la suppression de {{downloadTitle}} ?",
+            "yes": "Oui",
+            "no": "Non",
+            "deleteError": "Erreur de suppression.",
+            "pauseError": "Erreur lors de la mise en pause.",
+            "resumeError": "Erreur lors de la reprise."
         }
     }
 }

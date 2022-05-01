@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { NavController, Platform } from 'ionic-angular';
@@ -21,13 +22,20 @@ export class TabsPage {
 
     constructor(public navCtrl: NavController, private platform: Platform,
                 private statusBar: StatusBar, private splashScreen: SplashScreen,
-                private commonService: CommonService) {
+                private commonService: CommonService, public translate: TranslateService) {
         this.platform.ready().then(() => {
             this.statusBar.styleDefault();
             this.splashScreen.hide();
             this.commonService.getGranted().then(granted => {
                 if (!granted) {
                     this.navCtrl.setRoot(ConfigPage);
+                }
+                else {
+                    translate.addLangs(['en', 'fr', 'it']);
+                    translate.setDefaultLang('en');
+
+                    const browserLang = translate.getBrowserLang();
+                    translate.use(browserLang.match(/en|fr|it/) ? browserLang : 'en');
                 }
             });
         });
