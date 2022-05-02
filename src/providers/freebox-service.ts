@@ -232,14 +232,29 @@ export class FreeboxService {
                         if (response['success']) {
                             let downloads:any = [];
                             if (response['result'] != undefined) {
+                                // todo
+                                let isFrench: boolean = false;
+
+                                // Labels for sizes
+                                const byteLabel: string = isFrench ? 'o' : 'b';
+                                const kilobyteLabel: string = isFrench ? 'Ko' : 'kB';
+                                const megabyteLabel: string = isFrench ? 'Mo' : 'MB';
+                                const gigabyteLabel: string = isFrench ? 'Go' : 'GB';
+
+                                // Labels for intervals
+                                const secondsLabel = 'sec';
+                                const minutesLabel = 'mn';
+                                const hoursLabel = 'h';
+                                const daysLabel = 'j';
+
                                 for (let entry of response['result']) {
                                     let size: any = '';
                                     if (entry['size'] < 1000000 ) {
-                                        size = (entry['size'] / 1000) + " Ko";
+                                        size = (entry['size'] / 1000) + ' ' + kilobyteLabel;
                                     } else if (entry['size'] < 1000000000 ) {
-                                        size = (entry['size'] / 1000000) + " Mo";
+                                        size = (entry['size'] / 1000000) + ' ' + megabyteLabel;
                                     } else {
-                                        size = (entry['size'] / 1000000000) + " Go";
+                                        size = (entry['size'] / 1000000000) + ' ' + gigabyteLabel;
                                     }
                                     let progress:number = Math.ceil((entry['rx_pct'] / 100));
                                     if (entry['rx_bytes'] < entry['size']) {
@@ -256,11 +271,11 @@ export class FreeboxService {
                                             && (entry['rx_bytes']==entry['size'])) {
                                         shareStatus = true;
                                         if (entry['tx_rate'] < 1000 ) {
-                                            speed = entry['tx_rate'] + ' o/s';
+                                            speed = entry['tx_rate'] + ' ' + byteLabel + '/s';
                                         } else if (entry['tx_rate'] < 1000000 ) {
-                                            speed = Math.ceil(entry['tx_rate'] / 1000) + ' Ko/s';
+                                            speed = Math.ceil(entry['tx_rate'] / 1000) + ' ' + kilobyteLabel + '/s';
                                         } else {
-                                            speed = Math.ceil(entry['tx_rate'] / 1000000000) + ' Mo/s';
+                                            speed = Math.ceil(entry['tx_rate'] / 1000000000) + ' ' + megabyteLabel + '/s';
                                         }
                                         progress = Math.ceil((entry['tx_pct'] / 100));
                                     }
@@ -273,20 +288,20 @@ export class FreeboxService {
                                             icon = 'pause';
                                         }
                                         if (entry['eta'] < 60 ) {
-                                            remainingTime = entry['eta'] + ' sec';
+                                            remainingTime = entry['eta'] + ' ' + secondsLabel;
                                         } else if (entry['eta'] < 3600 ) {
-                                            remainingTime = Math.ceil(entry['eta'] / 60) + ' mn';
+                                            remainingTime = Math.ceil(entry['eta'] / 60) + ' ' + minutesLabel;
                                         } else if (entry['eta'] < 86400 ) {
-                                            remainingTime = Math.ceil(entry['eta'] / 3600) + ' h';
+                                            remainingTime = Math.ceil(entry['eta'] / 3600) + ' ' + hoursLabel;
                                         } else {
-                                            remainingTime = Math.ceil(entry['eta'] / 86400)+ ' j';
+                                            remainingTime = Math.ceil(entry['eta'] / 86400) + ' ' + daysLabel;
                                         }
                                         if (entry['rx_rate'] < 1000 ) {
-                                            speed = entry['rx_rate'] + ' o/s';
+                                            speed = entry['rx_rate'] + ' ' + byteLabel + '/s';
                                         } else if (entry['rx_rate'] < 1000000 ) {
-                                            speed = Math.ceil(entry['rx_rate'] / 1000) + ' Ko/s';
+                                            speed = Math.ceil(entry['rx_rate'] / 1000) + ' ' + kilobyteLabel + '/s';
                                         } else {
-                                            speed = Math.ceil(entry['rx_rate'] / 1000000000) + ' Mo/s';
+                                            speed = Math.ceil(entry['rx_rate'] / 1000000000) + ' ' + megabyteLabel + '/s';
                                         }
                                     }
                                     if (entry['status']=='stopped') {
