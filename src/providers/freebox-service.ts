@@ -275,7 +275,7 @@ export class FreeboxService {
                                         } else if (entry['tx_rate'] < 1000000 ) {
                                             speed = Math.ceil(entry['tx_rate'] / 1000) + ' ' + kilobyteLabel + '/s';
                                         } else {
-                                            speed = Math.ceil(entry['tx_rate'] / 1000000000) + ' ' + megabyteLabel + '/s';
+                                            speed = (Math.round((entry['tx_rate'] / 1000000 + Number.EPSILON) * 10) / 10) + ' ' + megabyteLabel + '/s';
                                         }
                                         progress = Math.ceil((entry['tx_pct'] / 100));
                                     }
@@ -301,7 +301,7 @@ export class FreeboxService {
                                         } else if (entry['rx_rate'] < 1000000 ) {
                                             speed = Math.ceil(entry['rx_rate'] / 1000) + ' ' + kilobyteLabel + '/s';
                                         } else {
-                                            speed = Math.ceil(entry['rx_rate'] / 1000000000) + ' ' + megabyteLabel + '/s';
+                                            speed = (Math.round((entry['rx_rate'] / 1000000 + Number.EPSILON) * 10) / 10) + ' ' + megabyteLabel + '/s';
                                         }
                                     }
                                     if (entry['status']=='stopped') {
