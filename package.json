@@ -10,7 +10,8 @@
         "lint": "ionic-app-scripts lint",
         "ionic:build": "ionic-app-scripts build",
         "ionic:serve": "ionic-app-scripts serve",
-        "lab": "ionic serve --lab --consolelogs"
+        "lab": "ionic serve --lab --consolelogs",
+        "serveonly": "ionic serve -b --consolelogs"
     },
     "dependencies": {
         "@angular/common": "5.0.0",
