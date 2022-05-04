@@ -6,7 +6,14 @@
             "search": "Cerca"
         },
         "config": {
-            "authError": "Errore di autenticazione."
+            "authError": "Errore di autenticazione.",
+            "requestInProgress": "Richiesta in corso...",
+            "pleaseAuthorize": "Si prega di autorizzare l'applicazione dalla {{brandModel}}",
+            "authorizationSuccessful": "Autorizzazione riuscita.",
+            "authorizationError": "Errore di autorizzazione.",
+            "authTitle": "Autenticazione {{brandModel}}",
+            "authText": "L'applicazione non è autenticata sulla tua {{brandModel}}. Per fare ciò, clicca sul pulsante qui sotto e convalida la richiesta sullo schermo LCD della tua {{brandModel}} toccando la freccia a destra.",
+            "authRequest": "richiedi l'autenticazione"
         },
         "download": {
             "downloadsTitle": "Download",

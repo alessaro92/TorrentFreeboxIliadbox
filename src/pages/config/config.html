@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      Authentification Freebox
+      {{ 'pages.config.authTitle'  | translate:brandModelParam }}
     </ion-title>
     <ion-buttons start>
     </ion-buttons>
@@ -12,15 +12,14 @@
   <ion-grid>
     <ion-row>
       <ion-col col-12>
-        L'application n'est pas authentifiée sur votre Freebox.
-        Pour ce faire, veuillez cliquer sur le bouton ci-dessous et valider la demande sur l'écran LCD de votre Freebox en touchant la flêche droite.
+        {{ 'pages.config.authText' | translate:brandModelParam }}
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col col-2></ion-col>
       <ion-col col-8>
         <button ion-button (click)="authentification()">
-          demander l'authentification
+          {{ 'pages.config.authRequest' | translate }}
         </button>
       </ion-col>
       <ion-col col-2></ion-col>

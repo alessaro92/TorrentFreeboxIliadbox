@@ -6,7 +6,14 @@
             "search": "Search"
         },
         "config": {
-            "authError": "Authentication error."
+            "authError": "Authentication error.",
+            "requestInProgress": "Request in progress...",
+            "pleaseAuthorize": "Please authorize the application from the {{brandModel}}",
+            "authorizationSuccessful": "Authorization successful.",
+            "authorizationError": "Authorization error.",
+            "authTitle": "{{brandModel}} authentication",
+            "authText": "The application is not authenticated on your {{brandModel}}. To do this, please click on the button below and validate the request on the LCD screen of your {{brandModel}} by touching the right arrow.",
+            "authRequest": "request authentication"
         },
         "download": {
             "downloadsTitle": "Downloads",
