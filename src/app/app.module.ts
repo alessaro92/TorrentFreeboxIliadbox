@@ -11,7 +11,7 @@ import { MyApp } from './app.component';
 
 import { ProgressBarComponent } from '../directives/progress-bar/progress-bar';
 
-import { ConfigPage } from '../pages/config/config';
+import { AuthenticationPage } from '../pages/authentication/authentication';
 import { FavoritePage, NavigationDetailsFavoritePage } from '../pages/favorite/favorite';
 import { SearchPage, NavigationDetailsSearchPage } from '../pages/search/search';
 import { DownloadPage } from '../pages/download/download';
@@ -39,7 +39,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   declarations: [
       MyApp,
       ProgressBarComponent,
-      ConfigPage,
+      AuthenticationPage,
       FavoritePage,
       NavigationDetailsFavoritePage,
       SearchPage,
@@ -63,7 +63,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   bootstrap: [IonicApp],
   entryComponents: [
       MyApp,
-      ConfigPage,
+      AuthenticationPage,
       FavoritePage,
       NavigationDetailsFavoritePage,
       SearchPage,

@@ -8,11 +8,11 @@ import { TabsPage } from '../tabs/tabs';
 import { Observable } from 'rxjs/Rx';
 
 @Component({
-    selector: 'page-config',
-    templateUrl: 'config.html',
+    selector: 'page-authentication',
+    templateUrl: 'authentication.html',
     providers: [CommonService, FreeboxService]
 })
-export class ConfigPage {
+export class AuthenticationPage {
 
   private authMessage:string;
   private subscriptionTimer:ISubscription;

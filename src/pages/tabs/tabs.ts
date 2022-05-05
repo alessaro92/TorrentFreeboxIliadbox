@@ -4,7 +4,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { NavController, Platform } from 'ionic-angular';
 import { CommonService } from '../../providers/common-service';
-import { ConfigPage } from '../config/config';
+import { AuthenticationPage } from '../authentication/authentication';
 
 import { FavoritePage } from '../favorite/favorite';
 import { SearchPage } from '../search/search';
@@ -28,7 +28,7 @@ export class TabsPage {
             this.splashScreen.hide();
             this.commonService.getGranted().then(granted => {
                 if (!granted) {
-                    this.navCtrl.setRoot(ConfigPage);
+                    this.navCtrl.setRoot(AuthenticationPage);
                 }
                 else {
                     translate.addLangs(['en', 'fr', 'it']);
