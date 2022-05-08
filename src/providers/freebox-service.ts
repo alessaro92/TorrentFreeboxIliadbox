@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import * as CryptoJS from 'crypto-js';
 import { CommonService } from './common-service';
 import { DownloadModel } from '../models/download.model';
@@ -41,7 +41,7 @@ export class FreeboxService {
         //this.routeDownload = this.routeApi + 'freebox/download';
         this.routeDownloadDelete = this.routeApi + 'freebox/download/delete';
         this.routeDownloadStatus = this.routeApi + 'freebox/download/status';
-        this.routeDownloadAddByUrl = this.routeApi + 'freebox/download/add/url';
+        this.routeDownloadAddByUrl = this.routeApi + 'downloads/add';
         //this.routeDownloads = this.routeApi + 'downloads/';
         //this.routeAirMedia = this.routeApi + 'airmedia/receivers/';
     }
@@ -508,15 +508,23 @@ export class FreeboxService {
 
     addDownloadByUrlGranted(url, downloadDirectory, tokenSession) {
         return new Promise(resolve => {
-            let request: any = {
-                "token_session": tokenSession.toString(),
-                "param" : {
-                    "download_url": url,
-                    "download_dir": downloadDirectory
-                }
+            let header = new HttpHeaders()
+                .set('Content-Type', 'application/x-www-form-urlencoded')
+                .set('X-Fbx-App-Auth', tokenSession);
+            const reqOpts = {
+                headers: header
             };
-            let param:any = JSON.stringify(request);
-            this.http.post(this.routeDownloadAddByUrl, param)
+            let payload = new HttpParams()
+                .set('download_url', url);
+
+            // download_dir (string) – The download destination directory (optional: will use the configuration download_dir by default)
+            if (downloadDirectory != null) {
+                const base64DownloadDirectoryParam = btoa(downloadDirectory)
+                payload = payload
+                    .set('download_dir', base64DownloadDirectoryParam);
+            }
+
+            this.http.post(this.routeDownloadAddByUrl, payload, reqOpts)
                 .subscribe(
                     response => {
                         resolve(response);
